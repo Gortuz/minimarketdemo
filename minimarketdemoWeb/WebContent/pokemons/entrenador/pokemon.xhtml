@@ -1,0 +1,111 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+<f:metadata>
+	<f:event listener="#{beanSegLogin.actionVerificarLogin()}"
+		type="preRenderView"></f:event>
+</f:metadata>
+<h:head>
+	<title>Pokémon</title>
+</h:head>
+<body>
+	<h:form>
+		<p:menubar>
+			<p:menuitem value="Regresar" icon="pi pi-home"
+				action="/menu?faces-redirect=true" />
+			<p:menuitem value="Pokémon" icon="pi pi-users"
+				action="#{beanPkmPokemons.actionMenuPokemon()}" />
+			<p:menuitem value="Tipos de Pokémon" icon="pi pi-slack"
+				action="#{beanPkmPokemons.actionMenuTiposPokemon()}" />
+			<f:facet name="options">
+				<p:menuButton value="#{beanSegLogin.loginDTO.correo}"
+					icon="pi pi-user">
+					<p:menuitem value="Perfil" icon="pi pi-cog"></p:menuitem>
+					<p:menuitem value="Cerrar sesión" icon="pi pi-sign-out"
+						action="#{beanSegLogin.actionCerrarSesion()}"></p:menuitem>
+				</p:menuButton>
+			</f:facet>
+		</p:menubar>
+	</h:form>
+	<h:form id="form1">
+		<p:panel>
+			<p:outputPanel
+				style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+				<h1 style="margin: 0;">Lista de Pokémon</h1>
+				<p:commandButton value="Crear Nuevo Pokémon"
+					action="#{beanPkmPokemons.actionMenuCrearPokemon}" update=":form1"
+					icon="pi pi-plus" styleClass="ui-button-success" />
+			</p:outputPanel>
+			<p:messages></p:messages>
+			<p:dataTable value="#{beanPkmPokemons.listaPokemons}" var="pokemon"
+				paginator="true" rows="10" styleClass="table"
+				emptyMessage="No se encontraron Pokémon"
+				sortBy="#{pokemon.idPokemon}" sortOrder="ascending">
+
+				<p:column headerText="ID" sortBy="#{pokemon.idPokemon}">
+					<h:outputText
+						value="#{beanPkmPokemons.getFormattedId(pokemon.idPokemon)}" />
+				</p:column>
+				<p:column headerText="Nombre" sortBy="#{pokemon.nombrePokemon}">
+					<h:outputText value="#{pokemon.nombrePokemon}" />
+				</p:column>
+				<p:column headerText="HP" sortBy="#{pokemon.hp}">
+					<h:outputText value="#{pokemon.hp}" />
+				</p:column>
+				<p:column headerText="Ataque" sortBy="#{pokemon.ataque}">
+					<h:outputText value="#{pokemon.ataque}" />
+				</p:column>
+				<p:column headerText="Defensa" sortBy="#{pokemon.defensa}">
+					<h:outputText value="#{pokemon.defensa}" />
+				</p:column>
+				<p:column headerText="Velocidad" sortBy="#{pokemon.velocidad}">
+					<h:outputText value="#{pokemon.velocidad}" />
+				</p:column>
+				<p:column headerText="Ataque Especial"
+					sortBy="#{pokemon.ataqueEspecial}">
+					<h:outputText value="#{pokemon.ataqueEspecial}" />
+				</p:column>
+				<p:column headerText="Defensa Especial"
+					sortBy="#{pokemon.defensaEspecial}">
+					<h:outputText value="#{pokemon.defensaEspecial}" />
+				</p:column>
+				<p:column headerText="Tipo 1"
+					sortBy="#{pokemon.pkmTipo1.nombreTipo}">
+					<h:outputText value="#{pokemon.pkmTipo1.nombreTipo}" />
+				</p:column>
+				<p:column headerText="Tipo 2"
+					sortBy="#{pokemon.pkmTipo2.nombreTipo}">
+					<h:outputText
+						value="#{pokemon.pkmTipo2 != null ? pokemon.pkmTipo2.nombreTipo : ''}" />
+				</p:column>
+				<p:column headerText="Acciones">
+					<p:commandButton icon="pi pi-pencil"
+						actionListener="#{beanPkmPokemons.setEleccionPokemon(pokemon)}"
+						action="#{beanPkmPokemons.actionMenuActualizarPokemon()}"
+						styleClass="ui-button-warning"
+						update=":form1" />
+					<p:commandButton 
+					    id="deleteBtn" 
+					    icon="pi pi-trash"
+					    action="#{beanPkmPokemons.actionListenerEliminarPokemon()}"
+					    actionListener="#{beanPkmPokemons.setEleccionPokemon(pokemon)}"
+					    update=":form1" 
+					    styleClass="ui-button-danger">
+					    <p:confirm header="Confirmación" 
+					               message="¿Estás seguro de eliminar este Pokémon?"
+					               icon="pi pi-info-circle" />
+					</p:commandButton>
+					
+					<p:confirmDialog global="true" showEffect="fade" hideEffect="fade" width="350">
+					    <p:commandButton value="Sí" type="button" styleClass="ui-confirmdialog-yes ui-button-success" />
+					    <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no ui-button-danger" />
+					</p:confirmDialog>
+				</p:column>
+			</p:dataTable>
+		</p:panel>
+	</h:form>
+</body>
+</html>

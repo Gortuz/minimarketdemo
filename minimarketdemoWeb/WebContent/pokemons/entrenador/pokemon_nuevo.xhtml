@@ -1,0 +1,118 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+<f:metadata>
+	<f:event listener="#{beanSegLogin.actionVerificarLogin()}"
+		type="preRenderView"></f:event>
+</f:metadata>
+<h:head>
+	<title>Crear Nuevo Pokémon</title>
+</h:head>
+<h:body>
+	<h:form>
+		<p:menubar>
+			<p:menuitem value="Regresar" icon="pi pi-home"
+				action="/menu?faces-redirect=true" />
+			<p:menuitem value="Pokémon" icon="pi pi-users"
+				action="#{beanPkmPokemons.actionMenuPokemon()}" />
+			<p:menuitem value="Tipos de Pokémon" icon="pi pi-slack"
+				action="#{beanPkmPokemons.actionMenuTiposPokemon()}" />
+			<f:facet name="options">
+				<p:menuButton value="#{beanSegLogin.loginDTO.correo}"
+					icon="pi pi-user">
+					<p:menuitem value="Perfil" icon="pi pi-cog"></p:menuitem>
+					<p:menuitem value="Cerrar sesión" icon="pi pi-sign-out"
+						action="#{beanSegLogin.actionCerrarSesion()}"></p:menuitem>
+				</p:menuButton>
+			</f:facet>
+		</p:menubar>
+	</h:form>
+	<p:panel>
+		<h:form id="formNuevoPokemon">
+			<h1>Crear Nuevo Pokémon</h1>
+
+			<!-- Campos del formulario -->
+			<p:panelGrid columns="2" styleClass="ui-panelgrid-blank"
+				cellpadding="5">
+				<h:outputLabel for="nombre" value="Nombre del Pokémon:" />
+				<p:inputText id="nombre"
+					value="#{beanPkmPokemons.nuevoPokemon.nombrePokemon}"
+					required="true" requiredMessage="El nombre es obligatorio." />
+
+				<h:outputLabel for="hp" value="HP:" />
+				<p:inputText id="hp" value="#{beanPkmPokemons.nuevoPokemon.hp}"
+					required="true" requiredMessage="El HP es obligatorio."
+					type="number" />
+
+				<h:outputLabel for="ataque" value="Ataque:" />
+				<p:inputText id="ataque"
+					value="#{beanPkmPokemons.nuevoPokemon.ataque}" required="true"
+					requiredMessage="El Ataque es obligatorio." type="number" />
+
+				<h:outputLabel for="defensa" value="Defensa:" />
+				<p:inputText id="defensa"
+					value="#{beanPkmPokemons.nuevoPokemon.defensa}" required="true"
+					requiredMessage="La Defensa es obligatoria." type="number" />
+
+				<h:outputLabel for="ataqueEspecial" value="Ataque Especial:" />
+				<p:inputText id="ataqueEspecial"
+					value="#{beanPkmPokemons.nuevoPokemon.ataqueEspecial}"
+					required="true"
+					requiredMessage="El Ataque Especial es obligatorio." type="number" />
+
+				<h:outputLabel for="defensaEspecial" value="Defensa Especial:" />
+				<p:inputText id="defensaEspecial"
+					value="#{beanPkmPokemons.nuevoPokemon.defensaEspecial}"
+					required="true"
+					requiredMessage="La Defensa Especial es obligatoria." type="number" />
+
+				<h:outputLabel for="velocidad" value="Velocidad:" />
+				<p:inputText id="velocidad"
+					value="#{beanPkmPokemons.nuevoPokemon.velocidad}" required="true"
+					requiredMessage="La Velocidad es obligatoria." type="number" />
+
+				<h:outputLabel for="tipo1" value="Tipo 1:" />
+				<p:selectOneMenu id="tipo1" value="#{beanPkmPokemons.tipo1}"
+					label="Selecciona el Tipo 1"
+					style="margin-bottom: 10px; width:250px">
+					<f:selectItem itemLabel="Seleccionar Tipo" itemValue="" />
+					<f:selectItems value="#{beanPkmPokemons.listaPkmTipos}" var="tipo"
+						itemLabel="#{tipo.nombreTipo}" itemValue="#{tipo.idTipo}" />
+				</p:selectOneMenu>
+
+				<h:outputLabel for="tipo2" value="Tipo 2:" />
+				<p:selectOneMenu id="tipo2" value="#{beanPkmPokemons.tipo2}"
+					label="Selecciona el Tipo 2"
+					style="margin-bottom: 10px; width:250px">
+					<f:selectItem itemLabel="Seleccionar Tipo" itemValue="" />
+					<f:selectItems value="#{beanPkmPokemons.listaPkmTipos}" var="tipo"
+						itemLabel="#{tipo.nombreTipo}" itemValue="#{tipo.idTipo}" />
+				</p:selectOneMenu>
+			</p:panelGrid>
+			
+			<p:panelGrid columns="2" style="margin-top:20px">
+			    <p:commandButton value="Guardar"
+			                     action="#{beanPkmPokemons.actionListenerCrearPokemon()}"
+			                     icon="pi pi-save" 
+			                     styleClass="ui-button-success"
+			                     update=":formNuevoPokemon" />
+			    
+			    <p:commandButton value="Cancelar"
+			                     action="#{beanPkmPokemons.actionMenuPokemon()}"
+			                     icon="pi pi-times" 
+			                     styleClass="ui-button-danger" 
+			                     validateClient="false"
+			                     oncomplete="window.history.back();" />
+			</p:panelGrid>
+
+
+
+
+			<p:messages></p:messages>
+		</h:form>
+	</p:panel>
+</h:body>
+</html>
